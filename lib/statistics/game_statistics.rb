@@ -46,4 +46,12 @@ class GameStatistics
   def average_goals_per_game
     (games.data.sum { |game| game.total_score }) / games.data.count
   end
+
+  # Aedan's methods
+
+  def data_by_season
+    @games.data.group_by do |game|
+      game.season
+    end
+  end
 end

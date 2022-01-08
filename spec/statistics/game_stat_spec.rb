@@ -14,6 +14,7 @@ RSpec.describe GameStatistics do
                                    visitor_win?: false, tie?: true, season: '20142015' })
     mock_game_manager = OpenStruct.new({ data: [mock_game_1, mock_game_2, mock_game_3, mock_game_4] })
     @game_statistics = GameStatistics.new(mock_game_manager)
+
   end
   describe '#highest_total_score' do
     it 'has a highest winning score' do
@@ -71,4 +72,23 @@ RSpec.describe GameStatistics do
       expect(actual).to eq(expected)
     end
   end
+
+  # Aedan's tests
+  describe '#data_by_season' do
+    it 'returns a hash with a season key and an array of Game object values' do
+      mock_game_1 = OpenStruct.new({ home_goals: 1, away_goals: 3, total_score: 4, home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013' })
+      mock_game_2 = OpenStruct.new({ home_goals: 2, away_goals: 6, total_score: 8, home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013' })
+      mock_game_3 = OpenStruct.new({ home_goals: 3, away_goals: 1, total_score: 4, home_win?: true, visitor_win?: false,
+                                     tie?: false, season: '20122013' })
+      mock_game_4 = OpenStruct.new({ home_goals: 2, away_goals: 2, total_score: 4, home_win?: false,
+                                     visitor_win?: false, tie?: true, season: '20142015' })
+      actual = @game_statistics.data_by_season
+      expected ={"20122013" => [mock_game_1, mock_game_2, mock_game_3],
+      "20142015" => [mock_game_4] }
+      expect(actual).to eq(expected)
+    end
+  end
+
 end
