@@ -5,14 +5,14 @@ require './lib/statistics/game_statistics'
 RSpec.describe GameStatistics do
   before(:each) do
     mock_game_1 = OpenStruct.new({ home_goals: 1, away_goals: 3, total_score: 4, home_win?: false, visitor_win?: true,
-                                   tie?: false, season: '20122013' })
+                                   tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
     mock_game_2 = OpenStruct.new({ home_goals: 2, away_goals: 6, total_score: 8, home_win?: false, visitor_win?: true,
-                                   tie?: false, season: '20122013' })
+                                   tie?: false, season: '20122013', home_team_id: 6, away_team_id: 3})
     mock_game_3 = OpenStruct.new({ home_goals: 3, away_goals: 1, total_score: 4, home_win?: true, visitor_win?: false,
-                                   tie?: false, season: '20122013' })
-    mock_game_4 = OpenStruct.new({ home_goals: 2, away_goals: 2, total_score: 4, home_win?: false,
-                                   visitor_win?: false, tie?: true, season: '20142015' })
-    mock_game_manager = OpenStruct.new({ data: [mock_game_1, mock_game_2, mock_game_3, mock_game_4] })
+                                   tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
+    mock_game_4 = OpenStruct.new({ home_goals: 2, away_goals: 2, total_score: 4, home_win?: false,visitor_win?: false,
+                                   tie?: true, season: '20142015', home_team_id: 6, away_team_id: 3})
+    mock_game_manager = OpenStruct.new({ data: [mock_game_1, mock_game_2, mock_game_3, mock_game_4]})
     @game_statistics = GameStatistics.new(mock_game_manager)
 
   end
@@ -76,18 +76,26 @@ RSpec.describe GameStatistics do
   # Aedan's tests
   describe '#data_by_season' do
     it 'returns a hash with a season key and an array of Game object values' do
+      # How do I access mock_game objects in the before block down here without doing what's below?
       mock_game_1 = OpenStruct.new({ home_goals: 1, away_goals: 3, total_score: 4, home_win?: false, visitor_win?: true,
-                                     tie?: false, season: '20122013' })
+                                     tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
       mock_game_2 = OpenStruct.new({ home_goals: 2, away_goals: 6, total_score: 8, home_win?: false, visitor_win?: true,
-                                     tie?: false, season: '20122013' })
+                                     tie?: false, season: '20122013', home_team_id: 6, away_team_id: 3})
       mock_game_3 = OpenStruct.new({ home_goals: 3, away_goals: 1, total_score: 4, home_win?: true, visitor_win?: false,
-                                     tie?: false, season: '20122013' })
-      mock_game_4 = OpenStruct.new({ home_goals: 2, away_goals: 2, total_score: 4, home_win?: false,
-                                     visitor_win?: false, tie?: true, season: '20142015' })
+                                     tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
+      mock_game_4 = OpenStruct.new({ home_goals: 2, away_goals: 2, total_score: 4, home_win?: false,visitor_win?: false,
+                                     tie?: true, season: '20142015', home_team_id: 6, away_team_id: 3})
       actual = @game_statistics.data_by_season
       expected ={"20122013" => [mock_game_1, mock_game_2, mock_game_3],
       "20142015" => [mock_game_4] }
       expect(actual).to eq(expected)
+    end
+  end
+
+  describe '#win_percentage_by_season' do
+    it 'returns an array of win percentages of a given team for all seasons' do
+       actual = @game_statistics.win_percentage_per_season(3)
+       expected = [60.667, 0]
     end
   end
 

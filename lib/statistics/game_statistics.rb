@@ -54,4 +54,20 @@ class GameStatistics
       game.season
     end
   end
+
+  def win_percentage_per_season(team_id)
+    wins = 0
+    game_count = data_by_season.map do |season|
+      home_wins = season[1].find_all do |game|
+        (team_id == game.home_team_id) && game.home_win?
+      end.count
+      away_wins = season[1].find_all do |game|
+        (team_id == game.away_team_id) && game.visitor_win?
+      end.count
+      game_count = season[1].count
+      wins += (home_wins + away_wins)
+      # require "pry"; binding.pry
+      ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
+    end
+  end
 end
