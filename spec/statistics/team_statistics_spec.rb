@@ -1,10 +1,8 @@
-# require 'spec_helper'
+require 'spec_helper'
 require 'simplecov'
 require 'RSpec'
 require 'ostruct'
 require './lib/statistics/team_statistics'
-require './lib/statistics/season_statistics.rb'
-# require './lib/statistics/game_teams_manager.rb'
 
 RSpec.describe TeamStatistics do
   before(:each) do
