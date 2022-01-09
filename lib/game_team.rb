@@ -41,10 +41,6 @@ class GameTeam
     #amount of times team id shows up in data
   end
 
-  def average_goals_overall
-    # goals / number of games played
-  end
-
   def average_goals_HoA
     # if HoA == away
     #   those games / number of games played
