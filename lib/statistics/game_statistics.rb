@@ -60,7 +60,6 @@ class GameStatistics
       home_wins = season[1].find_all do |game|
         (team_id == game.home_team_id) && game.home_win?
       end.count
-      # at this point all games have been iterated through and home_wins calculated
       away_wins = season[1].find_all do |game|
         (team_id == game.away_team_id) && game.visitor_win?
       end.count
@@ -77,7 +76,6 @@ class GameStatistics
       home_wins = season[1].find_all do |game|
         (team_id == game.home_team_id) && game.home_win?
       end.count
-      # at this point all games have been iterated through and home_wins calculated
       away_wins = season[1].find_all do |game|
         (team_id == game.away_team_id) && game.visitor_win?
       end.count
@@ -87,5 +85,22 @@ class GameStatistics
       ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
     end
     selected.first
+  end
+
+  def favorite_opponent_team_id(team_id)
+    o_win_counter = 0
+    o_loss_counter = 0
+    games = 0
+    chosen = @games.data.min_by do |game|
+      opponent_win = (team_id == game.home_team_id) && game.visitor_win?
+      if opponent_win == true then o_win_counter += 1 and games += 1
+      end
+      opponent_lose = (team_id == game.away_team_id) && game.visitor_win?
+      if opponent_lose == true then o_loss_counter +=1 and games += 1
+      end
+      (o_win_counter.to_f/games) * 100
+    end
+    return chosen.home_team_id if chosen.home_team_id != team_id
+    return chosen.away_team_if if chosen.away_team_if != team_id
   end
 end
