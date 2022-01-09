@@ -94,9 +94,9 @@ RSpec.describe GameStatistics do
 
   describe '#best_season' do
     it 'returns the name of the season with the highest win percentage for a given team' do
-      # require "pry"; binding.pry
        actual = @game_statistics.best_season(3)
        expected = "20122013"
+       expect(actual).to eq(expected)
     end
   end
 

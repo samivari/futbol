@@ -56,7 +56,7 @@ class GameStatistics
   end
 
   def best_season(team_id)
-    selected = data_by_season.map do |season|
+    selected = data_by_season.max_by do |season|
       home_wins = season[1].find_all do |game|
         (team_id == game.home_team_id) && game.home_win?
       end.count
@@ -69,5 +69,6 @@ class GameStatistics
       wins += (home_wins + away_wins)
       ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
     end
+    selected.first
   end
 end
