@@ -24,45 +24,8 @@ class TeamStatistics
     return hash
   end
 
-# returns season with lowest win percentage for a team
-  def best_season(team_id)
-#  starts with game_team_object.team_id == team_id argument
-#  will return game_object.season at the end
-  end
-
-# returns season with lowest win percentage for a team
-  def worst_season(team_id)
-#  starts with game_team_object.team_id == team_id argument
-#  will return game_object.season at the end
-  end
-
-# returns average win percentage of all games for a team
-# what is average win percentage vs win percentage?
-  def average_win_percentage(team_id)
-#  starts with game_team_object.team_id == team_id argument
-  end
-
-# Highest number of goals a team has scored in a single game.
-  def most_goals_scored
-
-  end
-# Lowest numer of goals a team has scored in a single game.
-  def fewest_goals_scored
-
-  end
-
-# Name of opponent that has the lowest win percentage against the given team.
-  def favorite_opponent
-# returns team.name
-  end
-
-
-  # Name of opponent that has the highest win percentage against the given team.
-  def rival
-
-  end
-
   # Michael's methods --ignore this
+  # I'm using this too I can't ignore it any longer
 
   def convert_id_to_team_name(team_id)
     matching_team = @team_manager.data.find{ |team| team.team_id == team_id }

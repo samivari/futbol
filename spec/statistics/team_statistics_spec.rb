@@ -1,10 +1,8 @@
-# require 'spec_helper'
+require 'spec_helper'
 require 'simplecov'
 require 'RSpec'
 require 'ostruct'
 require './lib/statistics/team_statistics'
-require './lib/statistics/season_statistics.rb'
-# require './lib/statistics/game_teams_manager.rb'
 
 RSpec.describe TeamStatistics do
   before(:each) do
@@ -31,6 +29,13 @@ RSpec.describe TeamStatistics do
       expected = {:team_id => 1, :franchise_id => 23, :team_name => "Atlanta United", :abbreviation => "ATL", :link => "/api/v1/teams/1" }
       # expected = {team_id: 1, franchise_id: 23, team_name: "Atlanta United", abbreviation: "ATL", link: "/api/v1/teams/1" }
       expect(actual).to eq(expected)
+    end
+  end
+
+  describe "#convert_id_to_team_name" do
+    it 'can accept a team_id argument and return the team_name' do
+      actual = @team_statistics.convert_id_to_team_name(26)
+      expected = "FC Cincinnati"
     end
   end
 end
