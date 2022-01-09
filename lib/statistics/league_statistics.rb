@@ -14,6 +14,29 @@ class LeagueStatistics
 
   def best_offense #team with highest average goals per game for all seasons
     #highest number in average_goals_overall method
+    #team_with_best_offense = gtd.data.max_by { |team| team.find_team_offense(team)}
+    #@team_statistics.convert_id_to_team_name()
+
+  end
+
+  def teams_into_array(team_id)
+    a = []
+    gtd.data.map do |game|
+      a << team_id
+    end
+    require 'pry'; binding.pry
+  end
+
+  def average_goals_overall_per_game
+    # goals / number of games played
+    a = 0
+    b = 0
+    @gtd.data.each do |game|
+      # require 'pry'; binding.pry
+      a += game.goals
+      b += 1
+    end
+    return a / b
   end
 
   def worst_offense #team with lowext average goals per game for all seasons
