@@ -94,7 +94,45 @@ RSpec.describe GameStatistics do
 
   describe '#best_season' do
     it 'returns the name of the season with the highest win percentage for a given team' do
-       actual = @game_statistics.best_season(3)
+      fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
+      fake_game_2 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013', home_team_id: 6, away_team_id: 3})
+      fake_game_3 = OpenStruct.new({  home_win?: true, visitor_win?: false,
+                                     tie?: false, season: '20142015', home_team_id: 3, away_team_id: 6})
+      fake_game_4 = OpenStruct.new({ home_win?: false, visitor_win?: false,
+                                     tie?: true, season: '20142015', home_team_id: 6, away_team_id: 3})
+      fake_game_5 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20142015', home_team_id: 3, away_team_id: 3})
+      fake_game_6 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    tie?: false, season: '20192020', home_team_id: 6, away_team_id: 3})
+      fake_game_manager = OpenStruct.new({ data: [fake_game_1, fake_game_2, fake_game_3, fake_game_4, fake_game_5, fake_game_6]})
+      @fake_game_statistics = GameStatistics.new(fake_game_manager)
+
+       actual = @fake_game_statistics.best_season(3)
+       expected = "20192020"
+       expect(actual).to eq(expected)
+    end
+  end
+
+  describe '#worst_season' do
+    it 'returns the name of the season with the highest win percentage for a given team' do
+      fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6})
+      fake_game_2 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20122013', home_team_id: 6, away_team_id: 3})
+      fake_game_3 = OpenStruct.new({  home_win?: true, visitor_win?: false,
+                                     tie?: false, season: '20142015', home_team_id: 3, away_team_id: 6})
+      fake_game_4 = OpenStruct.new({ home_win?: false, visitor_win?: false,
+                                     tie?: true, season: '20142015', home_team_id: 6, away_team_id: 3})
+      fake_game_5 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                     tie?: false, season: '20142015', home_team_id: 3, away_team_id: 3})
+      fake_game_6 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    tie?: false, season: '20192020', home_team_id: 6, away_team_id: 3})
+      fake_game_manager = OpenStruct.new({ data: [fake_game_1, fake_game_2, fake_game_3, fake_game_4, fake_game_5, fake_game_6]})
+      @fake_game_statistics = GameStatistics.new(fake_game_manager)
+# require "pry"; binding.pry
+       actual = @fake_game_statistics.worst_season(3)
        expected = "20122013"
        expect(actual).to eq(expected)
     end

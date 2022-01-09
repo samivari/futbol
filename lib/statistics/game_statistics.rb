@@ -71,4 +71,21 @@ class GameStatistics
     end
     selected.first
   end
+
+  def worst_season(team_id)
+    selected = data_by_season.min_by do |season|
+      home_wins = season[1].find_all do |game|
+        (team_id == game.home_team_id) && game.home_win?
+      end.count
+      # at this point all games have been iterated through and home_wins calculated
+      away_wins = season[1].find_all do |game|
+        (team_id == game.away_team_id) && game.visitor_win?
+      end.count
+      wins = 0
+      game_count = season[1].count
+      wins += (home_wins + away_wins)
+      ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
+    end
+    selected.first
+  end
 end
