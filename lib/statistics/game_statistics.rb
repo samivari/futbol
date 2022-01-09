@@ -87,20 +87,64 @@ class GameStatistics
     selected.first
   end
 
-  def favorite_opponent_team_id(team_id)
-    o_win_counter = 0
-    o_loss_counter = 0
-    games = 0
-    chosen = @games.data.min_by do |game|
-      opponent_win = (team_id == game.home_team_id) && game.visitor_win?
-      if opponent_win == true then o_win_counter += 1 and games += 1
-      end
-      opponent_lose = (team_id == game.away_team_id) && game.visitor_win?
-      if opponent_lose == true then o_loss_counter +=1 and games += 1
-      end
-      (o_win_counter.to_f/games) * 100
+# returns hash with team_id = home_team keys and game values with mixed teams
+  def group_home_team(team_id)
+    hash = @games.data.group_by do |game|
+      game.home_team_id if game.home_team_id == team_id
     end
-    return chosen.home_team_id if chosen.home_team_id != team_id
-    return chosen.away_team_if if chosen.away_team_if != team_id
+    hash.delete(nil)
+    return hash
+  end
+
+# returns hash with team_id = away_team keys and game values with mixed teams
+  def group_away_team(team_id)
+    hash = @games.data.group_by do |game|
+      game.away_team_id if game.away_team_id == team_id
+    end
+    hash.delete(nil)
+    return hash
+  end
+
+  # returns [{hash}] with opponent = away_team keys and game object values with team
+  def group_away_opponents(team_id)
+    hash = group_home_team(team_id).flat_map do |team|
+      team[1].group_by do |game|
+        game.away_team_id
+      end
+    end
+    return hash.first
+  end
+
+# returns [{hash}] with opponent = home_team keys and game object values with desired team
+  def group_home_opponents(team_id)
+    hash = group_away_team(team_id).flat_map do |team|
+      team[1].group_by do |game|
+        game.home_team_id
+      end
+    end
+    return hash.first
+  end
+
+  def grouped_opponents(team_id)
+    a=group_home_opponents(team_id).merge(group_away_opponents(team_id)) {|key, old, new| Array(old).push(new)}
+    done = a.collect do |team|
+      # require "pry"; binding.pry
+      team[1].flatten!
+    end
+    return a
+  end
+
+  def favorite_opponent_team_id(team_id)
+    team = grouped_opponents(team_id).min_by do |team|
+      games = team[1].count
+      wins = 0
+      team[1].each do |game|
+        if team_id == game.home_team_id && game.visitor_win? then wins += 1
+        elsif team_id == game.away_team_id && game.home_win? then wins += 1
+        end
+      end
+      percent = (wins.to_f / games) * 100
+    end
+    team.first
   end
 end

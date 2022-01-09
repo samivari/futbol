@@ -92,7 +92,7 @@ RSpec.describe SeasonStatistics do
 
   describe '#win_percentage' do
     it 'can return the win percentage of all games for a given team' do
-        actual = @season_statistics.win_percentage(6)
+        actual = @season_statistics.average_win_percentage(6)
         expected = 40.0
         expect(actual).to eq(expected)
     end
