@@ -8,23 +8,25 @@ class LeagueStatistics
     @gtd = game_teams_manager
   end
 
-  def count_of_teams #total number of teams in data
-    #amount of times a team id shows up
+  def team_id_array #puts every team id into an array
+    arr = []
+    team_ids = gtd.data.each do |game|
+      if !arr.include? game.team_id
+        arr << game.team_id
+      end
+    end
   end
+
+  def count_of_teams #total number of teams in data
+    team_id_array.length
+  end
+
 
   def best_offense #team with highest average goals per game for all seasons
     #highest number in average_goals_overall method
     #team_with_best_offense = gtd.data.max_by { |team| team.find_team_offense(team)}
     #@team_statistics.convert_id_to_team_name()
 
-  end
-
-  def teams_into_array(team_id)
-    a = []
-    gtd.data.map do |game|
-      a << team_id
-    end
-    require 'pry'; binding.pry
   end
 
   def average_goals_overall_per_game
@@ -44,8 +46,14 @@ class LeagueStatistics
   end
 
   def highest_scoring_visitor #team with highest average score per game for all seasons when away
-    #highest number in average_goals_HoA method for away
+    arr = []
+    @gtd.data.each do |game|
+      if game.HoA == away
+        arr << game.team_id
+      end
+    end
   end
+
 
   def highest_scoring_home_team #team with highest average score per game for all seasons when home
     #highest number in average_goals_HoA method for home
