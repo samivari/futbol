@@ -31,4 +31,11 @@ RSpec.describe TeamStatistics do
       expect(actual).to eq(expected)
     end
   end
+
+  describe "#convert_id_to_team_name" do
+    it 'can accept a team_id argument and return the team_name' do
+      actual = @team_statistics.convert_id_to_team_name(26)
+      expected = "FC Cincinnati"
+    end
+  end
 end
