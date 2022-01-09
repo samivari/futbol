@@ -92,10 +92,11 @@ RSpec.describe GameStatistics do
     end
   end
 
-  describe '#win_percentage_by_season' do
-    it 'returns an array of win percentages of a given team for all seasons' do
-       actual = @game_statistics.win_percentage_per_season(3)
-       expected = [60.667, 0]
+  describe '#best_season' do
+    it 'returns the name of the season with the highest win percentage for a given team' do
+      # require "pry"; binding.pry
+       actual = @game_statistics.best_season(3)
+       expected = "20122013"
     end
   end
 
