@@ -87,7 +87,7 @@ class SeasonStatistics
 # calculates win percentage for ALL games for a team
   def average_win_percentage(team_id)
     wins = matching_teams(team_id).find_all {|team| team.result == "WIN" }
-    (wins.count.to_f/total_games(team_id)) * 100
+    (wins.count.to_f/total_games(team_id)).round(2)
   end
 
   def most_goals_scored(team_id)
