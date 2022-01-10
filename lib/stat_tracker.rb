@@ -11,10 +11,12 @@ class StatTracker
 
   def initialize(locations)
     game_manager = GameManager.new(locations[:games])
+    @game_statistics = GameStatistics.new(game_manager)
     team_manager = TeamManager.new(locations[:teams])
     @team_statistics = TeamStatistics.new(team_manager)
     game_team_manager = GameTeamsManager.new(locations[:game_teams])
     @season_statistics = SeasonStatistics.new(game_team_manager)
+
   end
 
   def self.from_csv(locations)
@@ -51,4 +53,35 @@ class StatTracker
   end
 
   # Team Statistics
+  def team_info(team_id)
+    @team_statistics.team_info(team_id)
+  end
+
+  def best_season(team_id)
+    @game_statistics.best_season(team_id)
+  end
+
+  def worst_season(team_id)
+    @game_statistics.worst_season(team_id)
+  end
+
+  def average_win_percentage(team_id)
+    @season_statistics.average_win_percentage(team_id)
+  end
+
+  def most_goals_scored(team_id)
+    @season_statistics.most_goals_scored(team_id)
+  end
+
+  def fewest_goals_scored(team_id)
+    @season_statistics.fewest_goals_scored(team_id)
+  end
+
+  def favorite_opponent(team_id)
+    @team_statistics.convert_id_to_team_name(@game_statistics.favorite_opponent_team_id(team_id))
+  end
+
+  def rival(team_id)
+    @team_statistics.convert_id_to_team_name(@game_statistics.rival_team_id(team_id))
+  end
 end
