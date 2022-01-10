@@ -128,7 +128,6 @@ class GameStatistics
   def grouped_opponents(team_id)
     a=group_home_opponents(team_id).merge(group_away_opponents(team_id)) {|key, old, new| Array(old).push(new)}
     done = a.collect do |team|
-      # require "pry"; binding.pry
       team[1].flatten!
     end
     return a
