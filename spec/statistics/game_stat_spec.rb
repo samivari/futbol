@@ -125,6 +125,28 @@ RSpec.describe GameStatistics do
        expect(actual).to eq(expected)
     end
   end
+# how to call fake_games in test without breaking test?
+  describe '#group_home_team' do
+    it 'groups all games where home_team matches team_id argument with team_id as key' do
+      fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20122013', home_team_id: 3, away_team_id: 6})
+      fake_game_2 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20122013', home_team_id: 6, away_team_id: 3})
+      fake_game_3 = OpenStruct.new({ home_win?: true, visitor_win?: false,
+                                    season: '20142015', home_team_id: 3, away_team_id: 6})
+      fake_game_4 = OpenStruct.new({ home_win?: true, visitor_win?: false,
+                                    season: '20142015', home_team_id: 3, away_team_id: 9})
+      fake_game_5 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20142015', home_team_id: 3, away_team_id: 9})
+      fake_game_6 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20192020', home_team_id: 3, away_team_id: 9})
+      fake_game_manager = OpenStruct.new({ data: [fake_game_1, fake_game_2, fake_game_3, fake_game_4, fake_game_5, fake_game_6]})
+      @fake_game_statistics = GameStatistics.new(fake_game_manager)
+       actual = @fake_game_statistics.group_home_team(3)
+       expected ={3=>[fake_game_1, fake_game_3, fake_game_4, fake_game_5, fake_game_6]}
+       expect(actual).to eq(expected)
+    end
+  end
 
   describe '#favorite_opponent_team_id' do
     it 'returns the team_id of the opponent with the lowest win percentage against team' do
