@@ -126,8 +126,8 @@ RSpec.describe GameStatistics do
     end
   end
 # how to call fake_games in test without breaking test?
-  describe '#group_home_team' do
-    it 'groups all games where home_team matches team_id argument with team_id as key' do
+  describe '#group_home_team/group_away_team' do
+    it 'groups all games where home_team/away_team matches team_id argument with team_id as key' do
       fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
                                     season: '20122013', home_team_id: 3, away_team_id: 6})
       fake_game_2 = OpenStruct.new({ home_win?: false, visitor_win?: true,
@@ -145,8 +145,13 @@ RSpec.describe GameStatistics do
        actual = @fake_game_statistics.group_home_team(3)
        expected ={3=>[fake_game_1, fake_game_3, fake_game_4, fake_game_5, fake_game_6]}
        expect(actual).to eq(expected)
+       actual_2 = actual = @fake_game_statistics.group_away_team(3)
+       expected_2 = {3=>[fake_game_2]}
+       expect(actual_2).to eq(expected_2)
     end
   end
+
+
 
   describe '#favorite_opponent_team_id' do
     it 'returns the team_id of the opponent with the lowest win percentage against team' do
