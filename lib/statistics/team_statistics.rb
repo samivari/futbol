@@ -13,12 +13,11 @@ class TeamStatistics
     hash = {}
     @team_manager.data.select do |team|
       if team.team_id == team_id
-      # require "pry"; binding.pry
-        hash[:team_id] = team.team_id
-        hash[:franchise_id] = team.franchise_id
-        hash[:team_name] = team.team_name
-        hash[:abbreviation] = team.abbreviation
-        hash[:link] = team.link
+        hash["team_id"] = team.team_id
+        hash["franchise_id"] = team.franchise_id
+        hash["team_name"] = team.team_name
+        hash["abbreviation"] = team.abbreviation
+        hash["link"] = team.link
       end
     end
     return hash
