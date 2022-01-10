@@ -151,6 +151,31 @@ RSpec.describe GameStatistics do
     end
   end
 
+  describe '#group_home_opponents/group_away_opponents' do
+    it 'groups opponents with key == opponent team_id and values == game_object array' do
+      fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20122013', home_team_id: 3, away_team_id: 6})
+      fake_game_2 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20122013', home_team_id: 6, away_team_id: 3})
+      fake_game_3 = OpenStruct.new({ home_win?: true, visitor_win?: false,
+                                    season: '20142015', home_team_id: 3, away_team_id: 6})
+      fake_game_4 = OpenStruct.new({ home_win?: true, visitor_win?: false,
+                                    season: '20142015', home_team_id: 3, away_team_id: 9})
+      fake_game_5 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20142015', home_team_id: 3, away_team_id: 9})
+      fake_game_6 = OpenStruct.new({ home_win?: false, visitor_win?: true,
+                                    season: '20192020', home_team_id: 3, away_team_id: 9})
+      fake_game_manager = OpenStruct.new({ data: [fake_game_1, fake_game_2, fake_game_3, fake_game_4, fake_game_5, fake_game_6]})
+      @fake_game_statistics = GameStatistics.new(fake_game_manager)
+       away_opponent_hash = @fake_game_statistics.group_away_opponents(3)
+       expected ={6=> [fake_game_1, fake_game_3], 9 => [fake_game_4, fake_game_5, fake_game_6]}
+       expect(away_opponent_hash).to eq(expected)
+       home_opponent_hash = @fake_game_statistics.group_home_opponents(3)
+       expected_2 = {6=>[fake_game_2]}
+       expect(home_opponent_hash).to eq(expected_2)
+    end
+  end
+
 
 
   describe '#favorite_opponent_team_id' do
