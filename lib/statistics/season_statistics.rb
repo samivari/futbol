@@ -73,7 +73,7 @@ class SeasonStatistics
     return total_tackles
   end
 
-  # Aedan's methods WHERE DO THEY BELONG?
+  # Aedan's methods
   def matching_teams(team_id)
     @gtmd.data.find_all do |game|
       team_id.to_s == game.team_id
@@ -85,7 +85,7 @@ class SeasonStatistics
   end
 
 # calculates win percentage for ALL games for a team
-  def win_percentage(team_id)
+  def average_win_percentage(team_id)
     wins = matching_teams(team_id).find_all {|team| team.result == "WIN" }
     (wins.count.to_f/total_games(team_id)) * 100
   end
