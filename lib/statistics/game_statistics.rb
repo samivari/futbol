@@ -146,4 +146,18 @@ class GameStatistics
     end
     team.first
   end
+
+  def rival_team_id(team_id)
+    team = grouped_opponents(team_id).max_by do |team|
+      games = team[1].count
+      wins = 0
+      team[1].each do |game|
+        if team_id == game.home_team_id && game.visitor_win? then wins += 1
+        elsif team_id == game.away_team_id && game.home_win? then wins += 1
+        end
+      end
+      percent = (wins.to_f / games) * 100
+    end
+    team.first
+  end
 end
