@@ -18,7 +18,7 @@ class LeagueStatistics
       game[1].each do |team|
         goals += team.goals
       end
-      (goals / game[1].count)
+      (goals.to_f/ game[1].count)
     end
     team[0]
   end
@@ -29,7 +29,7 @@ class LeagueStatistics
       game[1].each do |team|
         goals += team.goals
       end
-      (goals / game[1].count)
+      (goals.to_f / game[1].count)
     end
     team[0]
   end
@@ -40,21 +40,42 @@ class LeagueStatistics
       game[1].each do |team|
         goals += team.goals
       end
-      (goals / game[1].count)
+      (goals.to_f / game[1].count)
     end
     team[0]
   end
 
   def highest_scoring_home_team #team with highest average score per game for all seasons when home
-    #highest number in average_goals_HoA method for home
+    team = group_teams_home.max_by do |game|
+      goals = 0
+      game[1].each do |team|
+        goals += team.goals
+      end
+      (goals.to_f / game[1].count)
+    end
+    team[0]
   end
 
   def lowest_scoring_visitor #team with lowest average score per game for all seasons when away
-    #lowest number in average_goals_HoA method for away
+    team = group_teams_away.min_by do |game|
+      goals = 0
+      game[1].each do |team|
+        goals += team.goals
+      end
+      (goals.to_f / game[1].count)
+    end
+    team[0]
   end
 
   def lowest_scoring_home_team #team with lowest average score per game for all seasons when home
-    #lowest number in average_goals_HoA method for home
+    team = group_teams_home.min_by do |game|
+      goals = 0
+      game[1].each do |team|
+        goals += team.goals
+      end
+      (goals.to_f / game[1].count)
+    end
+    team[0]
   end
 
   #helper methods
