@@ -40,7 +40,6 @@ class GameStatistics
     results = Hash.new(0)
     seasons = games.data.map { |game| game.season }
     seasons.group_by { |season| results[season] += 1 }
-
     results
   end
 
@@ -58,7 +57,6 @@ class GameStatistics
     end
     result
   end
-  # Aedan's methods (Aedan is super cool)
 
   def data_by_season
     @games.data.group_by { |game| game.season}
@@ -136,7 +134,7 @@ class GameStatistics
       percent = (wins.to_f / games) * 100
     end.first
   end
-  
+
   def rival_team_id(team_id)
     grouped_opponents(team_id).max_by do |team|
       games = team[1].count
