@@ -21,19 +21,19 @@ class GameStatistics
   def percentage_home_wins
     home_wins = games.data.find_all { |game| game.home_win? }.count
     game_count = games.data.count
-    (home_wins.to_f / game_count.to_f).round(5) * 100
+    (home_wins.to_f / game_count.to_f).round(2)
   end
 
   def percentage_visitor_wins
     visitor_wins = games.data.find_all { |game| game.visitor_win? }.count
     game_count = games.data.count
-    (visitor_wins.to_f / game_count.to_f).round(5) * 100
+    (visitor_wins.to_f / game_count.to_f).round(2)
   end
 
   def percentage_ties
     tie_count = games.data.find_all { |game| game.tie? }.count
     game_count = games.data.count
-    (tie_count.to_f / game_count.to_f).round(5) * 100
+    (tie_count.to_f / game_count.to_f).round(2)
   end
 
   def count_of_games_by_season
@@ -45,10 +45,20 @@ class GameStatistics
   end
 
   def average_goals_per_game
-    (games.data.sum { |game| game.total_score }) / games.data.count
+    ((games.data.sum { |game| game.total_score.to_f }) / games.data.count).round(2)
   end
 
-  # Aedan's methods
+  def average_goals_by_season
+    result = Hash.new(0)
+    data_by_season.each do |season|
+      goal_array = season[1].map do |game|
+        game.total_score
+      end
+      result[season[0]] = (goal_array.reduce(:+) / goal_array.size.to_f).round(2)
+    end
+    result
+  end
+  # Aedan's methods (Aedan is super cool)
 
   def data_by_season
     @games.data.group_by { |game| game.season}
