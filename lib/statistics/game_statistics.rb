@@ -51,9 +51,7 @@ class GameStatistics
   # Aedan's methods
 
   def data_by_season
-    @games.data.group_by do |game|
-      game.season
-    end
+    @games.data.group_by { |game| game.season}
   end
 
   def best_season(team_id)
