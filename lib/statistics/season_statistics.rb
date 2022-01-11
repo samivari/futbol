@@ -1,12 +1,11 @@
 require_relative '../managers/game_teams_manager'
-require 'pry'
-# THIS IS MICHAEL'S
-# Season Statistics
+
 class SeasonStatistics
   attr_reader :gtmd
   def initialize(game_team_manager)
-    @gtmd = game_team_manager # accronym for gameteammanagerdata
+    @gtmd = game_team_manager
   end
+
   def winningest_coach(season_id)
     season_coaches(season_id).max_by {|coach| coaches_by_win_percentage(season_id, coach) }
   end
@@ -30,8 +29,6 @@ class SeasonStatistics
   def fewest_tackles(season_id)
     season_teams(season_id).min_by {|team| tackles_by_team(season_id, team) }
   end
-
-  ## Necessary helper methods for above result methods
 
   def season_coaches(season_id)
     game_teams_data_by_season(season_id).map { |game| game.head_coach }.uniq
@@ -67,42 +64,30 @@ class SeasonStatistics
 
   def tackles_by_team(season_id, team)
     total_tackles = 0
-    game_teams_data_by_season(season_id).each do |game|
-      total_tackles += game.tackles if game.team_id == team
-    end
-    return total_tackles
+    game_teams_data_by_season(season_id).each { |game| total_tackles += game.tackles if game.team_id == team }
+    total_tackles
   end
 
-  # Aedan's methods
   def matching_teams(team_id)
-    @gtmd.data.find_all do |game|
-      team_id.to_s == game.team_id
-    end
+    @gtmd.data.find_all { |game| team_id.to_s == game.team_id}
   end
 
   def total_games(team_id)
     matching_teams(team_id).count
   end
 
-# calculates win percentage for ALL games for a team
   def average_win_percentage(team_id)
     wins = matching_teams(team_id).find_all {|team| team.result == "WIN" }
     (wins.count.to_f/total_games(team_id)).round(2)
   end
 
   def most_goals_scored(team_id)
-    team = matching_teams(team_id).max_by do |game|
-      game.goals
-    end
-    return team.goals
+    team = matching_teams(team_id).max_by { |game| game.goals }
+    team.goals
   end
 
   def fewest_goals_scored(team_id)
-    team = matching_teams(team_id).min_by do |game|
-      game.goals
-    end
-    return team.goals
+    team = matching_teams(team_id).min_by { |game| game.goals }
+    team.goals
   end
 end
-
-a = SeasonStatistics.new(GameTeamsManager.new('./data/game_teams.csv'))
