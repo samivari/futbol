@@ -21,19 +21,19 @@ class GameStatistics
   def percentage_home_wins
     home_wins = games.data.find_all { |game| game.home_win? }.count
     game_count = games.data.count
-    (home_wins.to_f / game_count.to_f).round(5)
+    (home_wins.to_f / game_count.to_f).round(2)
   end
 
   def percentage_visitor_wins
     visitor_wins = games.data.find_all { |game| game.visitor_win? }.count
     game_count = games.data.count
-    (visitor_wins.to_f / game_count.to_f).round(5)
+    (visitor_wins.to_f / game_count.to_f).round(2)
   end
 
   def percentage_ties
     tie_count = games.data.find_all { |game| game.tie? }.count
     game_count = games.data.count
-    (tie_count.to_f / game_count.to_f).round(5)
+    (tie_count.to_f / game_count.to_f).round(2)
   end
 
   def count_of_games_by_season
@@ -45,7 +45,7 @@ class GameStatistics
   end
 
   def average_goals_per_game
-    ((games.data.sum { |game| game.total_score.to_f }) / games.data.count).round(5)
+    ((games.data.sum { |game| game.total_score.to_f }) / games.data.count).round(2)
   end
 
   def average_goals_by_season
