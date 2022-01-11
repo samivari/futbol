@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require 'RSpec'
 require './spec/spec_helper'
 require 'ostruct'
@@ -19,6 +18,7 @@ RSpec.describe SeasonStatistics do
     mock_game_team_manager = OpenStruct.new({ data: [@mock_season_1, @mock_season_2, @mock_season_3, @mock_season_4, @mock_season_5, @mock_season_6, @mock_season_7, @mock_season_8] })
     @season_statistics = SeasonStatistics.new(mock_game_team_manager)
   end
+
   it 'will create an instance of SeasonStatistics' do
     expect(@season_statistics).to be_instance_of(SeasonStatistics)
   end
@@ -43,6 +43,7 @@ RSpec.describe SeasonStatistics do
   it 'will find the coach that has the worst record in a season' do
     expect(@season_statistics.worst_coach('2001000001')).to eq('John Tortorella')
   end
+
   describe 'Accuracy' do
     it 'will return the most accurate team in a season' do
     end
@@ -60,20 +61,19 @@ RSpec.describe SeasonStatistics do
       expect(@season_statistics.most_tackles('2002000004')).to eq('6')
     end
   end
+
   it 'will find all the teams that play in a season' do
     expect(@season_statistics.season_teams('2001000001')).to eq(['3', '6'])
   end
 
   it 'will return the tackles by team in a season' do
     expect(@season_statistics.tackles_by_team('2001000001', '3')).to eq(109)
-
   end
 
   it 'will return the accuracy of a certain team in percentage form' do
     expect(@season_statistics.teams_by_accuracy('2002000004', '6')).to eq(28.57)
   end
 
-  # Aedan's tests
   describe '#matching_teams' do
     it 'can return an array of game objects that match a team_id' do
       actual = @season_statistics.matching_teams(3)
@@ -93,7 +93,7 @@ RSpec.describe SeasonStatistics do
   describe '#win_percentage' do
     it 'can return the win percentage of all games for a given team' do
         actual = @season_statistics.average_win_percentage(6)
-        expected = 40.0
+        expected = 0.4
         expect(actual).to eq(expected)
     end
   end

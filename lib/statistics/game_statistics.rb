@@ -40,7 +40,6 @@ class GameStatistics
     results = Hash.new(0)
     seasons = games.data.map { |game| game.season }
     seasons.group_by { |season| results[season] += 1 }
-
     results
   end
 
@@ -58,12 +57,9 @@ class GameStatistics
     end
     result
   end
-  # Aedan's methods (Aedan is super cool)
 
   def data_by_season
-    @games.data.group_by do |game|
-      game.season
-    end
+    @games.data.group_by { |game| game.season}
   end
 
   def best_season(team_id)
@@ -98,54 +94,36 @@ class GameStatistics
     selected.first
   end
 
-  # returns hash with team_id = home_team keys and game values with mixed teams
   def group_home_team(team_id)
-    hash = @games.data.group_by do |game|
-      game.home_team_id if game.home_team_id == team_id
-    end
+    hash = @games.data.group_by { |game| game.home_team_id if game.home_team_id == team_id}
     hash.delete(nil)
     hash
   end
 
-  # returns hash with team_id = away_team keys and game values with mixed teams
   def group_away_team(team_id)
-    hash = @games.data.group_by do |game|
-      game.away_team_id if game.away_team_id == team_id
-    end
+    hash = @games.data.group_by { |game| game.away_team_id if game.away_team_id == team_id}
     hash.delete(nil)
     hash
   end
 
-  # returns [{hash}] with opponent = away_team keys and game object values with team
   def group_away_opponents(team_id)
-    hash = group_home_team(team_id).flat_map do |team|
-      team[1].group_by do |game|
-        game.away_team_id
-      end
-    end
+    hash = group_home_team(team_id).flat_map { |team| team[1].group_by { |game| game.away_team_id}}
     hash.first
   end
 
-  # returns [{hash}] with opponent = home_team keys and game object values with desired team
   def group_home_opponents(team_id)
-    hash = group_away_team(team_id).flat_map do |team|
-      team[1].group_by do |game|
-        game.home_team_id
-      end
-    end
+    hash = group_away_team(team_id).flat_map { |team| team[1].group_by { |game| game.home_team_id}}
     hash.first
   end
 
   def grouped_opponents(team_id)
-    a = group_home_opponents(team_id).merge(group_away_opponents(team_id)) { |_key, old, new| Array(old).push(new) }
-    done = a.collect do |team|
-      team[1].flatten!
-    end
-    a
+    merged = group_home_opponents(team_id).merge(group_away_opponents(team_id)) {|key, old, new| Array(old).push(new)}
+    merged.collect { |team| team[1].flatten! }
+    merged
   end
 
   def favorite_opponent_team_id(team_id)
-    team = grouped_opponents(team_id).min_by do |team|
+    grouped_opponents(team_id).min_by do |team|
       games = team[1].count
       wins = 0
       team[1].each do |game|
@@ -154,12 +132,11 @@ class GameStatistics
         end
       end
       percent = (wins.to_f / games) * 100
-    end
-    team.first
+    end.first
   end
 
   def rival_team_id(team_id)
-    team = grouped_opponents(team_id).max_by do |team|
+    grouped_opponents(team_id).max_by do |team|
       games = team[1].count
       wins = 0
       team[1].each do |game|
@@ -168,7 +145,6 @@ class GameStatistics
         end
       end
       percent = (wins.to_f / games) * 100
-    end
-    team.first
+    end.first
   end
 end
