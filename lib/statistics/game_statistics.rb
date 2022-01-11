@@ -20,19 +20,19 @@ class GameStatistics
   def percentage_home_wins
     home_wins = games.data.find_all { |game| game.home_win? }.count
     game_count = games.data.count
-    (home_wins.to_f / game_count.to_f).round(5) * 100
+    (home_wins.to_f / game_count.to_f).round(5)
   end
 
   def percentage_visitor_wins
     visitor_wins = games.data.find_all { |game| game.visitor_win? }.count
     game_count = games.data.count
-    (visitor_wins.to_f / game_count.to_f).round(5) * 100
+    (visitor_wins.to_f / game_count.to_f).round(5)
   end
 
   def percentage_ties
     tie_count = games.data.find_all { |game| game.tie? }.count
     game_count = games.data.count
-    (tie_count.to_f / game_count.to_f).round(5) * 100
+    (tie_count.to_f / game_count.to_f).round(5)
   end
 
   def count_of_games_by_season
@@ -44,10 +44,20 @@ class GameStatistics
   end
 
   def average_goals_per_game
-    (games.data.sum { |game| game.total_score }) / games.data.count
+    ((games.data.sum { |game| game.total_score.to_f }) / games.data.count).round(5)
   end
 
-  # Aedan's methods
+  def average_goals_by_season
+    result = Hash.new(0)
+    data_by_season.each do |season|
+      goal_array = season[1].map do |game|
+        game.total_score
+      end
+      result[season[0]] = (goal_array.reduce(:+) / goal_array.size.to_f).round(2)
+    end
+    result
+  end
+  # Aedan's methods (Aedan is super cool)
 
   def data_by_season
     @games.data.group_by do |game|
@@ -87,22 +97,22 @@ class GameStatistics
     selected.first
   end
 
-# returns hash with team_id = home_team keys and game values with mixed teams
+  # returns hash with team_id = home_team keys and game values with mixed teams
   def group_home_team(team_id)
     hash = @games.data.group_by do |game|
       game.home_team_id if game.home_team_id == team_id
     end
     hash.delete(nil)
-    return hash
+    hash
   end
 
-# returns hash with team_id = away_team keys and game values with mixed teams
+  # returns hash with team_id = away_team keys and game values with mixed teams
   def group_away_team(team_id)
     hash = @games.data.group_by do |game|
       game.away_team_id if game.away_team_id == team_id
     end
     hash.delete(nil)
-    return hash
+    hash
   end
 
   # returns [{hash}] with opponent = away_team keys and game object values with team
@@ -112,25 +122,25 @@ class GameStatistics
         game.away_team_id
       end
     end
-    return hash.first
+    hash.first
   end
 
-# returns [{hash}] with opponent = home_team keys and game object values with desired team
+  # returns [{hash}] with opponent = home_team keys and game object values with desired team
   def group_home_opponents(team_id)
     hash = group_away_team(team_id).flat_map do |team|
       team[1].group_by do |game|
         game.home_team_id
       end
     end
-    return hash.first
+    hash.first
   end
 
   def grouped_opponents(team_id)
-    a=group_home_opponents(team_id).merge(group_away_opponents(team_id)) {|key, old, new| Array(old).push(new)}
+    a = group_home_opponents(team_id).merge(group_away_opponents(team_id)) { |_key, old, new| Array(old).push(new) }
     done = a.collect do |team|
       team[1].flatten!
     end
-    return a
+    a
   end
 
   def favorite_opponent_team_id(team_id)
