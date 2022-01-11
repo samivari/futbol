@@ -1,5 +1,5 @@
 require_relative '../managers/team_manager.rb'
-require 'pry'
+
 class TeamStatistics
   attr_reader :manager
 

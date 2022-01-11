@@ -15,6 +15,7 @@ RSpec.describe GameStatistics do
     mock_game_manager = OpenStruct.new({ data: [mock_game_1, mock_game_2, mock_game_3, mock_game_4] })
     @game_statistics = GameStatistics.new(mock_game_manager)
   end
+  
   describe '#highest_total_score' do
     it 'has a highest winning score' do
       actual = @game_statistics.highest_total_score
@@ -83,8 +84,6 @@ RSpec.describe GameStatistics do
     end
   end
 
-  # Aedan's tests
-
   before(:each) do
     fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
                                    season: '20122013', home_team_id: 3, away_team_id: 6 })
@@ -105,7 +104,6 @@ RSpec.describe GameStatistics do
 
   describe '#data_by_season' do
     it 'returns a hash with a season key and an array of Game object values' do
-      # How do I access mock_game objects in the before block down here without doing what's below?
       mock_game_1 = OpenStruct.new({ home_goals: 1, away_goals: 3, total_score: 4, home_win?: false, visitor_win?: true,
                                      tie?: false, season: '20122013', home_team_id: 3, away_team_id: 6 })
       mock_game_2 = OpenStruct.new({ home_goals: 2, away_goals: 6, total_score: 8, home_win?: false, visitor_win?: true,
@@ -136,7 +134,7 @@ RSpec.describe GameStatistics do
       expect(actual).to eq(expected)
     end
   end
-  # how to call fake_games in test without breaking test?
+
   describe '#group_home_team/group_away_team' do
     it 'groups all games where home_team/away_team matches team_id argument with team_id as key' do
       fake_game_1 = OpenStruct.new({ home_win?: false, visitor_win?: true,
@@ -220,8 +218,8 @@ RSpec.describe GameStatistics do
       expect(actual).to eq(expected)
     end
 
-    describe '#' do
-      xit 'returns the team_id of the opponent with the highest win percentage against team' do
+    describe '#rival_team_id' do
+      it 'returns the team_id of the opponent with the highest win percentage against team' do
         actual = @fake_game_statistics.rival_team_id(3)
         expected = 9
       end
