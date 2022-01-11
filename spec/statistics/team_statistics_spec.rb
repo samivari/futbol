@@ -26,7 +26,7 @@ RSpec.describe TeamStatistics do
     it 'can return a hash with key/value pairs for attributes' do
       actual = @team_statistics.team_info(1)
       # team_info method currently returns with rocket syntax. problem?
-      expected = {:team_id => 1, :franchise_id => 23, :team_name => "Atlanta United", :abbreviation => "ATL", :link => "/api/v1/teams/1" }
+      expected = {"team_id" => 1, "franchise_id" => 23, "team_name" => "Atlanta United", "abbreviation" => "ATL", "link" => "/api/v1/teams/1" }
       # expected = {team_id: 1, franchise_id: 23, team_name: "Atlanta United", abbreviation: "ATL", link: "/api/v1/teams/1" }
       expect(actual).to eq(expected)
     end

@@ -1,3 +1,4 @@
+require_relative '../managers/game_teams_manager'
 class GameStatistics
   attr_reader :games
 
@@ -67,32 +68,32 @@ class GameStatistics
 
   def best_season(team_id)
     selected = data_by_season.max_by do |season|
+      game_count = season[1].find_all do |game|
+        game.away_team_id == team_id || game.home_team_id == team_id
+      end.count
       home_wins = season[1].find_all do |game|
         (team_id == game.home_team_id) && game.home_win?
       end.count
       away_wins = season[1].find_all do |game|
         (team_id == game.away_team_id) && game.visitor_win?
       end.count
-      wins = 0
-      game_count = season[1].count
-      wins += (home_wins + away_wins)
-      ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
+      ((home_wins.to_f + away_wins.to_f) / game_count.to_f).round(10)
     end
     selected.first
   end
 
   def worst_season(team_id)
     selected = data_by_season.min_by do |season|
+      game_count = season[1].find_all do |game|
+        game.away_team_id == team_id || game.home_team_id == team_id
+      end.count
       home_wins = season[1].find_all do |game|
         (team_id == game.home_team_id) && game.home_win?
       end.count
       away_wins = season[1].find_all do |game|
         (team_id == game.away_team_id) && game.visitor_win?
       end.count
-      wins = 0
-      game_count = season[1].count
-      wins += (home_wins + away_wins)
-      ((home_wins.to_f + away_wins.to_f) / game_count).round(5) * 100
+      ((home_wins.to_f + away_wins.to_f) / game_count.to_f).round(10)
     end
     selected.first
   end
