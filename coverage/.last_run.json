@@ -1,13 +1,11 @@
 {
   "result": {
-<<<<<<< HEAD
+
     "line": 94.11
-=======
-<<<<<<< Updated upstream
+
     "line": 84.61
-=======
-    "line": 100.0
->>>>>>> Stashed changes
->>>>>>> 5df96df7a75ab332667335cd5cefedd3811160f8
+
+    "covered_percent": 92.31
+
   }
 }
