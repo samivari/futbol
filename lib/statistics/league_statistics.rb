@@ -101,5 +101,4 @@ class LeagueStatistics
       end
     end
   end
-
 end

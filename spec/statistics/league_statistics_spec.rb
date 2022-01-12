@@ -28,7 +28,7 @@ RSpec.describe LeagueStatistics do
     end
   end
 
-  describe "find offense" do
+  describe "find overall offense" do
     it "puts one teams games into an array" do
       actual = @league_statistics.group_teams
       expect(actual).to be_a(Hash)
