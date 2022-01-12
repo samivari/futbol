@@ -1,8 +1,6 @@
 require './lib/managers/game_teams_manager'
 require './spec/spec_helper'
-# require '../../lib/data/game_teams'
 require 'RSpec'
-require 'ostruct'
 
 RSpec.describe GameTeamsManager do
   before(:each) do

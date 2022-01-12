@@ -2,7 +2,6 @@ require 'RSpec'
 require './spec/spec_helper'
 require 'ostruct'
 require './lib/statistics/season_statistics'
-require 'pry'
 
 RSpec.describe SeasonStatistics do
   before(:each) do

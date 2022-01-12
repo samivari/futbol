@@ -13,7 +13,6 @@ RSpec.describe TeamManager do
   end
 
   it "reads CSV data and returns each row as a team object " do
-    require "pry"; binding.pry
     expect(@manager.data).to include()
   end
 
