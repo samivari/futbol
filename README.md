@@ -8,7 +8,7 @@ They embarked on their journey, hand in hand, together *forever*.
 
 Through sleepless nights, 
 battling the monsterous Miss. covid, 
-and preparing for the battle of the final boss... # Pofessor T, that came after their journey...
+and preparing for the battle of the final boss... Pofessor T, that came after their journey...
 
 The heros came out of their treacherous journey with their heads held high and winning smiles.
 
