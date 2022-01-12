@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'RSpec'
 require 'ostruct'
-require './lib/team_manager'
+require './lib/managers/team_manager'
 
 RSpec.describe TeamManager do
   # before(:each) do
