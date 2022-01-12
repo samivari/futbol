@@ -3,7 +3,6 @@ require './lib/csv_reader'
 require './lib/managers/game_manager'
 require './lib/managers/game_teams_manager'
 require './lib/managers/team_manager'
-require 'pry'
 require 'RSpec'
 
 
